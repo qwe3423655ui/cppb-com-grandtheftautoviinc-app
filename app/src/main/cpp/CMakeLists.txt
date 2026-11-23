@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.18)
+project(main)
+file(GLOB_RECURSE SRC "${CMAKE_SOURCE_DIR}/src/*.cpp" "${CMAKE_SOURCE_DIR}/src/*.cc" "${CMAKE_SOURCE_DIR}/src/*.c")
+set(GLUE ${ANDROID_NDK}/sources/android/native_app_glue)
+set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -u ANativeActivity_onCreate")
+add_library(main SHARED ${SRC} ${GLUE}/android_native_app_glue.c)
+target_include_directories(main PRIVATE ${GLUE})
+target_link_libraries(main android log EGL GLESv2)
